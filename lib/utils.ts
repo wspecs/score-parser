@@ -1,0 +1,1 @@
+export const appName = '/Users/wendly/Documents/projects/score-parser';
