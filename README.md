@@ -1,19 +1,19 @@
-# /Users/wendly/Documents/projects/score-parser
+# score-parser
 
-![npm](https://img.shields.io/npm/v//Users/wendly/Documents/projects/score-parser.svg) ![license](https://img.shields.io/npm/l//Users/wendly/Documents/projects/score-parser.svg) ![github-issues](https://img.shields.io/github/issues/wspecs//Users/wendly/Documents/projects/score-parser.svg)
+![npm](https://img.shields.io/npm/v/score-parser.svg) ![license](https://img.shields.io/npm/l/score-parser.svg) ![github-issues](https://img.shields.io/github/issues/score-parser.svg)
 
 
 
-![nodei.co](https://nodei.co/npm//Users/wendly/Documents/projects/score-parser.png?downloads=true&downloadRank=true&stars=true)
+![nodei.co](https://nodei.co/npm/score-parser.png?downloads=true&downloadRank=true&stars=true)
 
-![travis-status](https://img.shields.io/travis/wspecs//Users/wendly/Documents/projects/score-parser.svg)
-![stars](https://img.shields.io/github/stars/wspecs//Users/wendly/Documents/projects/score-parser.svg)
-![forks](https://img.shields.io/github/forks/wspecs//Users/wendly/Documents/projects/score-parser.svg)
+![travis-status](https://img.shields.io/travis/score-parser.svg)
+![stars](https://img.shields.io/github/stars/score-parser.svg)
+![forks](https://img.shields.io/github/forks/score-parser.svg)
 
-![forks](https://img.shields.io/github/forks/wspecs//Users/wendly/Documents/projects/score-parser.svg)
+![forks](https://img.shields.io/github/forks/score-parser.svg)
 
-![](https://david-dm.org/wspecs//Users/wendly/Documents/projects/score-parser/status.svg)
-![](https://david-dm.org/wspecs//Users/wendly/Documents/projects/score-parser/dev-status.svg)
+![](https://david-dm.org/score-parser/status.svg)
+![](https://david-dm.org/score-parser/dev-status.svg)
 
 ## Features
 
@@ -27,7 +27,7 @@ const /Users/wendly/Documents/projects/score-parser = require('/Users/wendly/Doc
 
 ## Install
 
-`npm install --save /Users/wendly/Documents/projects/score-parser`
+`npm install --save score-parser`
 
 
 ## Scripts

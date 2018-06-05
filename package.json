@@ -1,10 +1,10 @@
 {
-  "name": "/Users/wendly/Documents/projects/score-parser",
+  "name": "score-parser",
   "version": "0.0.1",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "repository": "wspecs//Users/wendly/Documents/projects/score-parser",
+  "repository": "score-parser",
   "scripts": {
     "build": "rm -rf dist && tsc",
     "test": "mocha ./dist/test/*.js"
