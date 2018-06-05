@@ -1,0 +1,23 @@
+import * as Jimp from 'jimp';
+import { Position } from './types';
+export declare const RED: number[];
+export declare const GREEN: number[];
+export declare const BLUE: number[];
+export declare const WHITE: number[];
+export declare const BLACK: number[];
+export declare function verifyColor(image: Jimp, idx: number, rgb?: number[]): boolean;
+export declare function isRed(image: Jimp, idx: number): boolean;
+export declare function setColor(image: Jimp, idx: number, rgb?: number[]): void;
+export declare function setColorRed(image: Jimp, idx: number): void;
+export declare function setColorWhite(image: Jimp, idx: number): void;
+export declare function setColorGreen(image: Jimp, idx: number): void;
+export declare function setColorBlue(image: Jimp, idx: number): void;
+export declare function setColorBlack(image: Jimp, idx: number): void;
+export declare function setBinary(image: Jimp): void;
+export declare function getRGB(image: Jimp, idx: number): {
+    red: number;
+    green: number;
+    blue: number;
+};
+export declare function passForegroudTest(red: number, green: number, blue: number, treshhold?: number): boolean;
+export declare function getHighlightRangeSelection(image: Jimp): Position[];
