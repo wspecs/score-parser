@@ -14,5 +14,5 @@ export function analyzeScore(path: string) {
         findStaffs(image);
         image.write('score.jpg');
         return true;
-    }).catch(err => console.log(err);
+    }).catch(err => console.log(err));
 }

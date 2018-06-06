@@ -4,15 +4,20 @@ export declare const RED: number[];
 export declare const GREEN: number[];
 export declare const BLUE: number[];
 export declare const WHITE: number[];
+export declare const YELLOW: number[];
+export declare const PURPLE: number[];
+export declare const BROWN: number[];
 export declare const BLACK: number[];
+export declare const TEAL: number[];
 export declare function verifyColor(image: Jimp, idx: number, rgb?: number[]): boolean;
-export declare function isRed(image: Jimp, idx: number): boolean;
 export declare function setColor(image: Jimp, idx: number, rgb?: number[]): void;
 export declare function setColorRed(image: Jimp, idx: number): void;
 export declare function setColorWhite(image: Jimp, idx: number): void;
 export declare function setColorGreen(image: Jimp, idx: number): void;
 export declare function setColorBlue(image: Jimp, idx: number): void;
 export declare function setColorBlack(image: Jimp, idx: number): void;
+export declare function setColorYellow(image: Jimp, idx: number): void;
+export declare function replace(image: Jimp, original: number[] | undefined, rep: number[] | undefined, x: number, y: number, width: number, height: number): void;
 export declare function setBinary(image: Jimp): void;
 export declare function getRGB(image: Jimp, idx: number): {
     red: number;
@@ -20,4 +25,5 @@ export declare function getRGB(image: Jimp, idx: number): {
     blue: number;
 };
 export declare function passForegroudTest(red: number, green: number, blue: number, treshhold?: number): boolean;
-export declare function getHighlightRangeSelection(image: Jimp): Position[];
+export declare function highlight(image: Jimp, x: number, y: number, width: number, height: number, rgb?: number[], highlightForeground?: boolean, greyIndex?: number): void;
+export declare function getHighlightRangeSelection(image: Jimp, color?: number[]): Position[];

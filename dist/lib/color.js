@@ -8,7 +8,11 @@ exports.RED = [255, 0, 0];
 exports.GREEN = [0, 255, 0];
 exports.BLUE = [0, 0, 255];
 exports.WHITE = [255, 255, 255];
+exports.YELLOW = [255, 255, 0];
+exports.PURPLE = [255, 0, 255];
+exports.BROWN = [255, 153, 18];
 exports.BLACK = [0, 0, 0];
+exports.TEAL = [56, 142, 142];
 function verifyColor(image, idx, rgb) {
     if (rgb === void 0) { rgb = exports.WHITE; }
     return image.bitmap.data[idx] === rgb[0] &&
@@ -16,10 +20,6 @@ function verifyColor(image, idx, rgb) {
         image.bitmap.data[idx + 2] === rgb[2];
 }
 exports.verifyColor = verifyColor;
-function isRed(image, idx) {
-    return verifyColor(image, idx, exports.RED);
-}
-exports.isRed = isRed;
 function setColor(image, idx, rgb) {
     if (rgb === void 0) { rgb = [255, 255, 255]; }
     image.bitmap.data[idx] = rgb[0];
@@ -47,6 +47,20 @@ function setColorBlack(image, idx) {
     setColor(image, idx, exports.BLACK);
 }
 exports.setColorBlack = setColorBlack;
+function setColorYellow(image, idx) {
+    setColor(image, idx, exports.YELLOW);
+}
+exports.setColorYellow = setColorYellow;
+function replace(image, original, rep, x, y, width, height) {
+    if (original === void 0) { original = exports.WHITE; }
+    if (rep === void 0) { rep = exports.RED; }
+    image.scan(x, y, width, height, function (newX, newY, idx) {
+        if (verifyColor(image, idx, original)) {
+            setColor(image, idx, rep);
+        }
+    });
+}
+exports.replace = replace;
 function setBinary(image) {
     image.scan(0, 0, image.bitmap.width, image.bitmap.height, function (x, y, idx) {
         var rgb = getRGB(image, idx);
@@ -72,9 +86,9 @@ function passForegroudTest(red, green, blue, treshhold) {
     return ((RED_LUMINANCE * red) + (GREEN_LUMINANCE * green) + (BLUE_LUMINANCE * blue)) > (treshhold * 255);
 }
 exports.passForegroudTest = passForegroudTest;
-function highlight(image, x, y, width, height, highlightForeground, rgb, greyIndex) {
-    if (highlightForeground === void 0) { highlightForeground = true; }
+function highlight(image, x, y, width, height, rgb, highlightForeground, greyIndex) {
     if (rgb === void 0) { rgb = exports.RED; }
+    if (highlightForeground === void 0) { highlightForeground = true; }
     if (greyIndex === void 0) { greyIndex = constant_1.GREY_INDEX; }
     image.scan(x, y, width, height, function (x, y, idx) {
         var pixelRGB = getRGB(image, idx);
@@ -83,12 +97,14 @@ function highlight(image, x, y, width, height, highlightForeground, rgb, greyInd
         }
     });
 }
-function getHighlightRangeSelection(image) {
+exports.highlight = highlight;
+function getHighlightRangeSelection(image, color) {
+    if (color === void 0) { color = exports.RED; }
     var selections = [];
     var _loop_1 = function (x) {
         var position = {};
         image.scan(x, 0, 1, image.bitmap.height, function (x, y, idx) {
-            if (isRed(image, idx)) {
+            if (verifyColor(image, idx, color)) {
                 if (!position.start) {
                     position.position = x;
                     position.start = y;
@@ -102,7 +118,6 @@ function getHighlightRangeSelection(image) {
                 position = {};
             }
             else {
-                // Selection is less than 3 pixels;
                 position = {};
             }
         });

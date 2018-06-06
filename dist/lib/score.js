@@ -15,8 +15,6 @@ function analyzeScore(path) {
         staff_1.findStaffs(image);
         image.write('score.jpg');
         return true;
-    }).catch(function (err) {
-        console.error(err);
-    });
+    }).catch(function (err) { return console.log(err); });
 }
 exports.analyzeScore = analyzeScore;

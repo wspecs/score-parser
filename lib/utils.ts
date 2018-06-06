@@ -1,27 +1,27 @@
 import {GREY_INDEX, Classification} from './constant';
-import {Range, Position, PositionMap} from './types';
+import {Range, Position, PositionMap, ClassficationType, ClassificationPositionMap, BoundaryMap} from './types';
 import * as Jimp from 'jimp';
 
 export function getBinaryDistribution(image: Jimp, x: number, y: number, width: number, height: number, greyIndex=GREY_INDEX) {
-    const result = {white: 0, black: 0};
+    const result = {foreground: 0, background: 0};
     image.scan(x, y, width, height, (x, y, idx) => {
       var red = image.bitmap.data[idx];
       var green = image.bitmap.data[idx+1];
       var blue = image.bitmap.data[idx+2];
   
-      if (red < greyIndex && green < greyIndex && blue < greyIndex) {
-        result.black++;
+      if (red === 0 && green === 0 && blue === 0) {
+        result.background++;
       } else {
-        result.white++;
+        result.foreground++;
       }
     });
-    return binaryDistribution(result.white, result.black);
+    return binaryDistribution(result.foreground, result.background);
   }
 
-export function binaryDistribution(white: number, black: number) {
+export function binaryDistribution(foreground: number, background: number) {
     return {
-      white: white / (white + black),
-      black: black / (white + black),
+      foreground: foreground / (foreground + background),
+      background: background / (foreground + background),
     };
   }
 
@@ -41,12 +41,9 @@ export function getNextPositions(previousPosition: Position, selectionMap: Posit
     const positions = [];
     let newPreviousPosition = {...previousPosition};
     for (const position of selectionMap[String(previousPosition.position + 1)]) {
-      // const positionRanges = new Set([...Array(position.end - position.start + 1).keys()].map(
-      //   x => x + position.start));
-      // const previousRanges = new Set([...Array(newPreviousPosition.end - newPreviousPosition.start + 1).keys()].map(
-      //   x => x + newPreviousPosition.start));
-      const positionRanges = new Set([...Array(position.end - position.start + 1).map(x => x + position.start)]);
-      const previousRanges = new Set([...Array(newPreviousPosition.end - newPreviousPosition.start + 1).map(x => x + newPreviousPosition.start)]);
+      // Sets are undefined investigate
+      const positionRanges = new Set(Array.from({length: position.end - position.start}, (x,i) => i + position.start + 1)); // new Set([...Array(position.end - position.start + 1)].map((_, x) => x + position.start));
+      const previousRanges = new Set(Array.from({length: newPreviousPosition.end - newPreviousPosition.start}, (x,i) => i + newPreviousPosition.start + 1)); // new Set([...Array(position.end - position.start + 1)].map((_, x) => x + position.start));
       const intersection = Array.from(positionRanges).filter(x => previousRanges.has(x));
       if (intersection.length > 0) {
         positions.push(position);
@@ -71,4 +68,36 @@ export function getNextPositions(previousPosition: Position, selectionMap: Posit
       return Classification.DOT;
     }
     return Classification.NOISE;
+  }
+
+  export function getSelectionBoundary(horizontalRange: Range, verticalRange: Position, selectionMap: {}) {
+    let boundary = getBoudary(horizontalRange, verticalRange);
+    let previousPosition = verticalRange;
+    for (let position = horizontalRange.start; position < horizontalRange.end; position++) {
+      const positions = getNextPositions(previousPosition, selectionMap);
+      if (positions.length === 0) {
+        boundary = getBoudary(Object.assign({}, horizontalRange, {end: position}), previousPosition);
+        break;
+      }
+      previousPosition = positions.reduce((res, curr) => {
+        res.start = Math.min(res.start, curr.start);
+        res.end = Math.max(res.end, curr.end);
+        res.position = curr.position;
+        return res;
+      }, previousPosition);
+      boundary = getBoudary(horizontalRange, previousPosition);
+    }
+    return boundary;
+  }
+
+  export function getBoundaries(classifications: ClassficationType[], selectionMap: ClassificationPositionMap) {
+    const boundaries: BoundaryMap = {};
+    for (const classification of classifications) {
+      const horizontalRanges = selectionMap[classification.start];
+      for (const range of horizontalRanges) {
+        const key = `${classification.start}-${range.start}`;
+        boundaries[key] = getSelectionBoundary(classification, range, selectionMap);
+      }
+    }
+    return boundaries;
   }

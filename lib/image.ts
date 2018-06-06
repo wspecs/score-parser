@@ -13,7 +13,7 @@ export function getAllPixels(image: Jimp, border = 0) {
   }
   
 export function cropImage(image: Jimp, x: number, y: number, width: number, height: number, treshhold=0.005, greyIndex=GREY_INDEX) {
-    return getBinaryDistribution(image, x, y, width, height, greyIndex).white < treshhold;
+    return getBinaryDistribution(image, x, y, width, height, greyIndex).foreground < treshhold;
   }
 
 export function cropLeft(image: Jimp) {

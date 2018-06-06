@@ -16,7 +16,7 @@ exports.getAllPixels = getAllPixels;
 function cropImage(image, x, y, width, height, treshhold, greyIndex) {
     if (treshhold === void 0) { treshhold = 0.005; }
     if (greyIndex === void 0) { greyIndex = constant_1.GREY_INDEX; }
-    return utils_1.getBinaryDistribution(image, x, y, width, height, greyIndex).white < treshhold;
+    return utils_1.getBinaryDistribution(image, x, y, width, height, greyIndex).foreground < treshhold;
 }
 exports.cropImage = cropImage;
 function cropLeft(image) {
